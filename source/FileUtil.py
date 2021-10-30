@@ -50,4 +50,4 @@ def save_wav_file(dst_path: str, wav_data: WavData) -> None:
     '''
     引数 path で指定された wav ファイルに波形データをセーブします。
     '''
-    wavfile.write(dst_path, wav_data.sample_rate, wav_data.samples.transpose().astype(np.float32))
+    wavfile.write(dst_path, wav_data.sample_rate, wav_data.samples.astype(np.float32).transpose())

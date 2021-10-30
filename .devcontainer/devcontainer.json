@@ -3,7 +3,7 @@
 {
 	"name": "Ubuntu",
 	"build": {
-		"dockerfile": "../Dockerfile",
+		"dockerfile": "Dockerfile",
 		// Update 'VARIANT' to pick an Ubuntu version: focal, bionic
 		//"args": { "VARIANT": "focal" }
 	},
@@ -11,19 +11,17 @@
 	// Set *default* container specific settings.json values on container create.
 	"settings": {},
 
+	"forwardPorts": [
+		8888,
+	],
+
+	"containerEnv": {
+		"JUPYTER_ENABLE_LAB": "true",
+	},
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"ms-python.python",
 		"sukumo28.wav-preview"
 	]
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "uname -a",
-
-	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
-	// "remoteUser": "vscode"
 }
