@@ -9,7 +9,8 @@
 		"recommendations": [
 			"ms-vscode-remote.remote-containers",
 			"ms-vscode-remote.remote-wsl",
-			"eamodio.gitlens"
+			"eamodio.gitlens",
+			"ms-python.python"
 		]
 	}
 }

@@ -15,8 +15,11 @@ if [ -e "/.dockerenv" ]; then
         exit $?
     fi
 else
-    # コンテナ外ならコンテナを実行
-    echo $jupyter_cmd
+    # コンテナ外ならコンテナをビルド・実行
+    $workspace_dir_path/docker_build.sh
+    if [ $? -ne 0 ]; then
+        exit $?
+    fi
     $workspace_dir_path/docker_run.sh $jupyter_cmd
     if [ $? -ne 0 ]; then
         exit $?

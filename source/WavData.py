@@ -1,4 +1,3 @@
-
 # numpy
 import numpy as np
 
@@ -20,3 +19,25 @@ class WavData:
         '''
         self.sample_rate = sample_rate
         self.samples = samples
+    
+    def length_in_samples(self):
+        '''
+        長さを総サンプル数で得る
+        '''
+        if self.samples is None:
+            return None
+        if self.samples.ndim == 1:
+            return self.samples.size
+        else:
+            return self.samples.shape[1]
+
+    def length_in_sec(self):
+        '''
+        長さを秒で得る
+        '''
+        length_in_samples = self.length_in_samples()
+        if length_in_samples is None:
+            return None
+        if self.sample_rate is None:
+            return None
+        return length_in_samples / self.sample_rate
