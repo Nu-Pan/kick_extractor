@@ -1,8 +1,16 @@
-import matplotlib.pyplot as plt
-from WavData import WavData
-import numpy as np
+# python
 from typing import Dict
+
+# bokeh
+from bokeh import output_notebook, figure, show
+output_notebook()
+
+# numpy
+import numpy as np
 from numpy.typing import ArrayLike
+
+# local
+from WavData import WavData
 
 def plot_wav_data(wav_data_dict: Dict[str, WavData]):
     '''
