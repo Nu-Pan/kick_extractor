@@ -14,8 +14,10 @@
 	],
 
 	"containerEnv": {
-		"JUPYTER_ENABLE_LAB": "true",
+		"JUPYTER_ENABLE_LAB": "true"
 	},
+
+	"remoteUser": "dev",
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [

@@ -2,13 +2,15 @@
 
 # https://qiita.com/yohm/items/047b2e68d008ebb0f001
 
-USER_ID=${LOCAL_UID:-9001}
-GROUP_ID=${LOCAL_GID:-9001}
+NEW_USER_ID=${HOST_UID:-9001}
+NEW_GROUP_ID=${HOST_UID:-9001}
 
-echo "Starting with UID : $USER_ID, GID: $GROUP_ID"
-useradd -u $USER_ID -o -m user
-groupmod -g $GROUP_ID user
-export HOME=/home/user
+if [ $(id -u $USER_NAME) -ne $NEW_USER_ID ]; then
+    usermod -d /home/$USER_NAME -u $NEW_USER_ID -o -m $USER_NAME
+fi
+if [ $(id -g $USER_NAME) -ne $NEW_GROUP_ID ]; then
+    groupmod -g $NEW_GROUP_ID $USER_NAME
+fi
 
-exec /usr/sbin/gosu user "$@"
+exec /usr/sbin/gosu $USER_NAME "$@"
 

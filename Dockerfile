@@ -16,7 +16,15 @@ RUN perl -p -i.bak -e 's%(deb(?:-src|)\s+)https?://(?!archive\.canonical\.com|se
 RUN pip install -U pip \
 &&  pip install --no-cache-dir numpy scipy jupyterlab bokeh
 
+# User settings
+ENV USER_NAME=dev \
+    GROUP_ID=1000 \
+    USER_ID=1000
+RUN groupadd -g $GROUP_ID $USER_NAME \
+&&  useradd -d /home/$USER_NAME -m -s /bin/bash -u $USER_ID -g $GROUP_ID $USER_NAME \
+&&  echo "${USER_NAME} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
 # Launch settings
-COPY    entrypoint.sh /user/local/bin/entrypoint.sh
-RUN     chmod +x /user/local/bin/entrypoint.sh
-ENTRYPOINT ["/user/local/bin/entrypoint.sh"]
+COPY    entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN     chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

@@ -27,8 +27,8 @@ docker run \
     -p $container_port \
     --workdir $incontainer_home \
     -e PWD=$incontainer_home \
-    -e LOCAL_UID=$(id -u $USER) \
-    -e LOCAL_GID=$(id -g $USER) \
+    -e HOST_UID=$(id -u $USER) \
+    -e HOST_GID=$(id -g $USER) \
     $docker_container_tag \
     $exec_cmd
 if [ $? -ne 0 ]; then
