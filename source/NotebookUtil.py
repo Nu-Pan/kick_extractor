@@ -14,34 +14,34 @@ from numpy.typing import ArrayLike
 # local
 from WavData import WavData
 
-def generate_sample_positions_in_sec(wav_data: WavData):
+def generate_sample_positions_in_sec(wavdata: WavData):
     return np.linspace(
         start=0,
-        stop=wav_data.length_in_sec(),
-        num=wav_data.length_in_samples(),
+        stop=wavdata.length_in_sec(),
+        num=wavdata.length_in_samples(),
         endpoint=False
     )
 
-def plot_wav_data(wav_data_dict: Dict[str, WavData]):
+def plot_wavdata(wavdata_dict: Dict[str, WavData]):
     '''
     WavData をグラフにプロットする。
     '''
-    if not type(wav_data_dict) is dict:
-        plot_wav_data({'no name': wav_data_dict})
+    if not type(wavdata_dict) is dict:
+        plot_wavdata({'no name': wavdata_dict})
         return
     plot_colors = itertools.cycle(Colorblind[7])
     fig = figure()
-    for label, wav_data in wav_data_dict.items():
+    for label, wavdata in wavdata_dict.items():
         samples = None
-        if type(wav_data) is WavData:
-            samples = wav_data.samples
-        elif type(wav_data) is np.ndarray:
-            samples = wav_data
+        if type(wavdata) is WavData:
+            samples = wavdata.samples
+        elif type(wavdata) is np.ndarray:
+            samples = wavdata
         else:
-            raise(Exception(f"Unknown type({type(wav_data)})"))
+            raise(Exception(f"Unknown type({type(wavdata)})"))
         if len(samples.shape) > 1:
             samples = samples[0]
-        fig.line(generate_sample_positions_in_sec(wav_data), samples, legend_label=label, line_color=next(plot_colors))
+        fig.line(generate_sample_positions_in_sec(wavdata), samples, legend_label=label, line_color=next(plot_colors))
     show(fig)
 
 def plot_envelope(control_points_dict: Dict[str, ArrayLike], is_log_scale:bool=False):

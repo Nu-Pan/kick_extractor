@@ -6,8 +6,8 @@ import os
 from WavData import WavData
 import FileUtil
 
-def main_function(wav_data: WavData) -> WavData:
-    return wav_data
+def main_function(wavdata: WavData) -> WavData:
+    return wavdata
 
 
 if __name__ == '__main__':
@@ -17,12 +17,12 @@ if __name__ == '__main__':
     src_paths = glob('data/*.wav')
     for src_path in src_paths:
         # wav ファイルロード
-        wav_data = FileUtil.load_wav_file(src_path)
+        wavdata = FileUtil.load_wav_file(src_path)
         # フィルタを適用
-        wav_data = main_function(wav_data)
+        wavdata = main_function(wavdata)
         # wav ファイルセーブ
         src_basename = path.basename(src_path)
         dst_path = f'data/{src_basename}_out.wav'
-        FileUtil.save_wav_file(dst_path, wav_data)
+        FileUtil.save_wav_file(dst_path, wavdata)
     # 正常終了     
     exit(0)
