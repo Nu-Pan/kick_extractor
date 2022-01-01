@@ -17,8 +17,8 @@ class WavData:
         '''
         コンストラクタ。
         '''
-        self.sample_rate = sample_rate
-        self.samples = samples
+        self.sample_rate: int = sample_rate
+        self.samples: np.ndarray = samples
     
     def length_in_samples(self):
         '''
