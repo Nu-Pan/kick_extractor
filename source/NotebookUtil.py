@@ -7,6 +7,7 @@ import collections
 # bokeh
 from bokeh.plotting import output_notebook, figure, show
 from bokeh.palettes import Colorblind
+from bokeh.models import Range1d
 output_notebook()
 
 # numpy
@@ -15,6 +16,7 @@ from numpy.typing import ArrayLike
 
 # local
 from WavData import WavData
+import SignalProcessingUtil
 
 def _generate_sample_positions_in_sec(wavdata: WavData) -> np.linspace:
     return np.linspace(
@@ -33,15 +35,6 @@ def _flatten(l):
             yield from _flatten(el)
         else:
             yield el
-
-def _to_frequency(positions_in_subsample: np.ndarray, sample_rate: int, period_factor: int) -> np.ndarray:
-    '''
-    サブサンプル精度の「位置」の配列を元に、周波数の配列を生成する。
-    '''
-    periods_in_subsample = (np.roll(positions_in_subsample, -1) - positions_in_subsample)[:-1] * period_factor
-    periods_in_sec = periods_in_subsample / sample_rate
-    frequency_in_hz = 1.0 / periods_in_sec
-    return frequency_in_hz
 
 class PlotType(Enum):
     '''
@@ -104,7 +97,7 @@ def describe_frequency(label: str, positions_in_subsample: np.ndarray, sample_ra
     positions_in_subsample を周波数に変換シた上で散布図として記述する。
     '''
     # 周波数化
-    frequencies_in_hz = _to_frequency(
+    frequencies_in_hz = SignalProcessingUtil.to_frequency(
         positions_in_subsample,
         sample_rate,
         period_factor
@@ -131,7 +124,7 @@ def describe_dot_on_wavdata(label: str, wavdata: WavData, positions_in_subsample
         positions_in_subsample/wavdata.sample_rate
     )    
 
-def plot(descs :Union[PlotDesc, List[PlotDesc]], is_log_scale:bool=False) -> None:
+def plot(descs :Union[PlotDesc, List[PlotDesc]], is_log_scale:bool=False, beat_per_minute=None) -> None:
     '''
     descs の指定どおりにグラフを描画・表示する。
     '''
@@ -141,6 +134,10 @@ def plot(descs :Union[PlotDesc, List[PlotDesc]], is_log_scale:bool=False) -> Non
     # プロット設定
     plot_colors = itertools.cycle(Colorblind[7])
     fig = figure(y_axis_type='log' if is_log_scale else None)
+    if not beat_per_minute is None:
+        beat_period_in_sec = 60 / beat_per_minute
+        fig.x_range = Range1d(0, beat_period_in_sec/2)
+        fig.xaxis.ticker = [ i * beat_period_in_sec / 4 for i in range(0, 8)]
     # 一本づつ描画
     for d in _flatten(descs):
         d: PlotDesc
