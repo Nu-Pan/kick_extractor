@@ -14,7 +14,7 @@ RUN perl -p -i.bak -e 's%(deb(?:-src|)\s+)https?://(?!archive\.canonical\.com|se
 
 # Install pip packages
 RUN pip install -U pip \
-&&  pip install --no-cache-dir numpy scipy jupyterlab bokeh
+&&  pip install --no-cache-dir numpy scipy jupyterlab bokeh sympy
 
 # User settings
 ENV USER_NAME=dev \
