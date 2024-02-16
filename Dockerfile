@@ -17,14 +17,13 @@ RUN pip install -U pip \
 &&  pip install --no-cache-dir numpy scipy jupyterlab bokeh sympy
 
 # User settings
-ENV USER_NAME=dev \
-    GROUP_ID=1000 \
-    USER_ID=1000
-RUN groupadd -g $GROUP_ID $USER_NAME \
+ARG USER_ID
+ARG GROUP_ID
+ARG USER_NAME
+ARG GROUP_NAME
+RUN groupadd -g $GROUP_ID $GROUP_NAME \
 &&  useradd -d /home/$USER_NAME -m -s /bin/bash -u $USER_ID -g $GROUP_ID $USER_NAME \
 &&  echo "${USER_NAME} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # Launch settings
-COPY    entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN     chmod +x /usr/local/bin/entrypoint.sh
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["jupyter-lab", "--ip=0.0.0.0"]
